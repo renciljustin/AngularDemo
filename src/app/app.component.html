@@ -1,21 +1,252 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/cli">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<main class="container">
+  <h1 class="display-4 pb-5">Angular Demo</h1>
+  <section class="pb-5">
+    <div class="mb-3">
+      <h2>Two-Way Binding</h2>
+      <summary><strong>Two-Way Binding</strong> synchronize our view and model. When the view is updated, the model representing the view will be updated. When the model is updated, the view representing the model will be updated.</summary>
+    </div>
+    <label for="fullName"></label>
+    <input [(ngModel)]="fullName" type="text" name="fullName" id="fullName" class="form-control" placeholder="Enter your full name" autocomplete="off">
+    <small class="text-success d-block"> <strong>value:</strong> {{fullName}} </small>
+    <hr>
+  </section>
+  <section class="pb-5">
+    <div class="mb-3">
+      <h2>Pipes</h2>
+      <summary><strong>Pipe</strong> allows us to transforms the view without affecting the model.</summary>
+    </div>
+    <p><strong>MODEL</strong></p>
+    <p class="ml-3"> {{employee | json}} </p>
+    <p><strong>VIEW</strong></p>
+    <p class="ml-3"><strong>Name:</strong> {{employee.name | uppercase}} </p>
+    <p class="ml-3"><strong>Birthdate:</strong> {{employee.birthDate | date:'longDate'}} </p>
+    <p class="ml-3"><strong>Position:</strong> {{employee.position | lowercase}} </p>
+    <p class="ml-3"><strong>Salary:</strong> {{employee.salary | currency:'PHP'}} </p>
+    <p class="ml-3"><strong>Summary:</strong> {{employee.summary | summary:20 }} </p>
+    <hr>
+  </section>
+  <section class="pb-5">
+    <div class="mb-3">
+      <h2>Input & Output</h2>
+      <summary><strong>Input & Output</strong> allows us to pass and receive data from different component.</summary>
+    </div>
 
-<router-outlet></router-outlet>
+    <app-toggle [checked]="toggle" (toggle)="onToggle($event)"></app-toggle>
+    <small class="d-block"><strong>toggle:</strong> {{toggle}} </small>
+    <hr>
+  </section>
+  <section class="pb-5">
+    <div class="mb-3">
+      <h2>Containers</h2>
+      <summary><strong>Containers</strong> allows us to modify the view of our child component from the base component.</summary>
+    </div>
+    <article class="card-deck">
+      <app-quote-card *ngFor="let quote of quotes">
+        <ng-container class="quote">
+          <blockquote class="blockquote">
+            <p class="mb-0 font-italic">{{quote.text}}</p>
+            <footer class="blockquote-footer text-right">{{quote.author}}</footer>
+          </blockquote>
+        </ng-container>
+      </app-quote-card>
+    </article>
+    <hr>
+  </section>
+  <section class="pb-5">
+    <div class="mb-5">
+      <h2>Directives</h2>
+      <summary><strong>Directives</strong> allows us to extend the HTML attribute.</summary>
+    </div>
+    <article class="mb-3 ml-5">
+      <div class="mb-3">
+        <h3 class="">ngIf Directive</h3>
+        <summary><strong>ngIf Directive</strong> allows us to perform a specific condition for view rendering.</summary>
+      </div>
+      
+      <input [(ngModel)]="age" #ageInput="ngModel" type="number" name="age" id="age" class="form-control" placeholder="Enter your age" autocomplete="off" required>
+      
+      <div *ngIf="ageInput.valid">
+        <div *ngIf="age >= 18; then adult else minor"></div>
+        <ng-template #minor>
+          <span class="d-block text-danger">You are a <strong>minor.</strong></span>
+        </ng-template>
+        <ng-template #adult>
+          <span class="d-block text-primary">You are an <strong>adult.</strong></span>
+        </ng-template>
+      </div>
+      <hr>
+    </article>
+
+    <article class="mb-3 ml-5">
+      <div class="mb-3">
+        <h3 class="">ngSwitch Directive</h3>
+        <summary><strong>ngSwitch Directive</strong> allows us to perform a several cases for view rendering.</summary>
+      </div>
+
+      <div class="form-group">
+        <label for="color">Select a color:</label>
+        <select [(ngModel)]="selectedColor" name="color" id="color" class="form-control">
+          <option *ngFor="let color of colors" [value]="color">{{color}}</option>
+        </select>
+      </div>
+
+      <div [ngSwitch]="selectedColor">
+        <span *ngSwitchCase="'Blue'">
+          The selected color is <strong [style.color]="selectedColor">{{selectedColor}}</strong>
+        </span>
+        <span *ngSwitchCase="'Red'">
+          The selected color is <strong [style.color]="selectedColor">{{selectedColor}}</strong>
+        </span>
+        <span *ngSwitchCase="'Green'">
+          The selected color is <strong [style.color]="selectedColor">{{selectedColor}}</strong>
+        </span>
+        <span *ngSwitchDefault>
+          There is no selected color.
+        </span>
+      </div>
+      <hr>
+    </article>
+
+    <article class="mb-3 ml-5">
+      <div class="mb-3">
+        <h3 class="">ngFor Directive</h3>
+        <summary><strong>ngFor Directive</strong> allows us to render list of view data by iterating the target model</summary>
+      </div>
+      
+      <table class="table table-hover">
+        <thead>
+          <th>Student Name</th>
+          <th>Gender</th>
+          <th>Course</th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let student of students">
+            <td>{{student.name}}</td>
+            <td>{{student.gender}}</td>
+            <td>{{student.course}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <hr>
+    </article>
+
+    <article class="mb-3 ml-5">
+      <div class="mb-3">
+        <h3 class="">ngClass and ngStyle Directive</h3>
+        <summary><strong>ngClass and ngStyle</strong> extends the class and style attributes.</summary>
+      </div>
+      
+      <div [ngClass]="{'bg-primary': toggleShape, 'bg-success': !toggleShape}"
+        [ngStyle]="{'border-radius': toggleShape ? '50px' : '0'}"
+        class="box-model"
+        (click)="toggleShape = !toggleShape">
+        <span class="text-center text-white d-inline-block">Click Me</span>
+      </div>
+      <hr>
+    </article>
+
+    <article class="mb-3 ml-5">
+      <div class="mb-3">
+        <h3 class="">Custom Directive</h3>
+        <summary>You can also customize your own directive.</summary>
+      </div>
+      
+      <input appTextTransform="uppercase" type="email" name="email" id="email" class="form-control" placeholder="Enter your email" autocomplete="off">
+      <small class="d-block text-muted">The input value automatically transforms to UPPERCASE whenever the focus, blur and change event is triggered.</small>
+    </article>
+    <hr>
+  </section>
+  <section class="pb-5">
+    <div class="mb-5">
+      <h2>Template-Driven Forms</h2>
+      <summary><strong>Template-Driven Forms</strong> are used to build simple forms with default client side validations.</summary>
+    </div>
+
+    <form #bookForm="ngForm">
+      <h3>NEW BOOK</h3>
+      <div class="form-group">
+        <label for="title">Title<span class="text-danger">*</span></label>
+        <input ngModel #title="ngModel" type="text" name="title" id="title" class="form-control" autocomplete="off" required>
+        <div *ngIf="title.invalid && title.touched" class="text-danger">Title field is required.</div>
+      </div>
+      <div class="form-group">
+        <label for="pageCount">Page Count<span class="text-danger">*</span></label>
+        <input ngModel #pageCount="ngModel" type="number" name="pageCount" id="pageCount" class="form-control" autocomplete="off" required>
+        <div *ngIf="pageCount.invalid && pageCount.touched" class="text-danger">Page Count field is required.</div>
+      </div>
+      <div ngModelGroup="author">
+        <div class="form-group">
+          <label for="name">Author's Name<span class="text-danger">*</span></label>
+          <input ngModel #name="ngModel" type="text" name="name" id="name" class="form-control" autocomplete="off" required>
+          <div *ngIf="name.invalid && name.touched" class="text-danger">Author's Name field is required.</div>
+        </div>
+        <div class="form-group">
+          <label for="address">Author's Address<span class="text-danger">*</span></label>
+          <input ngModel #address="ngModel" type="text" name="address" id="address" class="form-control" autocomplete="off" required>
+          <div *ngIf="address.invalid && address.touched" class="text-danger">Author's Address field is required.</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="remarks">Remarks</label>
+        <textarea ngModel #remarks="ngModel" name="remarks" id="remarks" class="form-control" rows="10"></textarea>
+      </div>
+      <div><strong>Book Model:</strong> {{bookForm.value | json}}</div>
+      <div>
+        <strong>Form Status:</strong>
+        <span [ngClass]="{'text-success': bookForm.valid, 'text-danger': !bookForm.valid }"> {{bookForm.valid ? 'Valid' : 'Invalid'}} </span>
+      </div>
+      <button class="btn btn-primary btn-lg" [disabled]="bookForm.invalid">Save</button>
+    </form>
+    <hr>
+  </section>
+  <section class="pb-5">
+    <div class="mb-5">
+      <h2>Reactive Forms</h2>
+      <summary><strong>Reactive Forms</strong> are used to build complex/dynamic forms with default and custom validations.</summary>
+    </div>
+    
+    <form [formGroup]="registrationForm">
+      <h3>REGISTER</h3>
+      
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input formControlName="username" type="text" name="username" id="username" class="form-control" autocomplete="off">
+        <div *ngIf="username.pending">Checking for uniqueness...</div>
+        <div *ngIf="username.invalid && username.touched" class="text-danger">
+          <div *ngIf="username.errors['required']">Username field is required.</div>
+          <div *ngIf="username.errors['minlength']">Username field must be at least {{username.errors['minlength'].requiredLength}} characters.</div>
+          <div *ngIf="username.errors['maxlength']">Username field must not exceed on {{username.errors['maxlength'].requiredLength}} characters.</div>
+          <div *ngIf="username.errors['noSpace']">Username field must not contains space.</div>
+          <div *ngIf="username.errors['duplicate']">Username {{username.value}} is already used.</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input formControlName="password" type="password" name="password" id="password" class="form-control" autocomplete="off">
+        <div *ngIf="password.invalid && password.touched" class="text-danger">
+          <div *ngIf="password.errors['required']">Password field is required.</div>
+          <div *ngIf="password.errors['minlength']">Password field must be at least {{password.errors['minlength'].requiredLength}} characters.</div>
+          <div *ngIf="password.errors['maxlength']">Password field must not exceed on {{password.errors['maxlength'].requiredLength}} characters.</div>
+        </div>
+      </div>
+      <div formGroupName="contact">
+        <div class="form-group">
+          <label for="cellphoneNo">Cellphone Number</label>
+          <input formControlName="cellphoneNo" type="text" name="cellphoneNo" id="cellphoneNo" class="form-control" autocomplete="off">
+        </div>
+        <div class="form-group">
+          <label for="telephoneNo">Telephone Number</label>
+          <input formControlName="telephoneNo" type="text" name="telephoneNo" id="telephoneNo" class="form-control" autocomplete="off">
+        </div>
+      </div>
+      <div><strong>Register Model:</strong> {{registrationForm.value | json}}</div>
+      <div>
+        <strong>Form Status:</strong>
+        <span [ngClass]="{'text-success': registrationForm.valid, 'text-danger': !registrationForm.valid }"> {{registrationForm.valid ? 'Valid' : 'Invalid'}} </span>
+      </div>
+      <div><strong>Note:</strong> Typing 'rencil' on username field to trigger duplicate username validation.</div>
+      <button class="btn btn-primary btn-lg" [disabled]="registrationForm.invalid">Save</button>
+    </form>
+    <hr>
+  </section>
+</main>

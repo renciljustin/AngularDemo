@@ -1,0 +1,7 @@
+<button
+  class="btn btn-lg"
+  [ngClass]="{'btn-primary': checked, 'btn-danger': !checked}"
+  (click)="onToggle()">
+  toggle is
+  <strong>{{checked ? 'ON' : 'OFF'}}</strong>
+</button>
