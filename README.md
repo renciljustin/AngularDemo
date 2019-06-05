@@ -1,6 +1,6 @@
-# Navigate to `https://renciljustin.github.io/AngularDemo/` to see the actual demo.
-
 # AngularDemo
+
+## Navigate to [Angular Demo](https://renciljustin.github.io/AngularDemo/) to see the actual demo.
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.8.
 
